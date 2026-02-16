@@ -19,14 +19,10 @@ export default function SignInPage() {
     e.preventDefault()
     setError("")
 
-    if (!email || !password) {
-      setError("Please enter your email and password.")
-      return
-    }
-
     setLoading(true)
     try {
-      const success = await login(email, password)
+      // Accept any email and password for demo purposes
+      const success = await login(email || "demo@ticketmaster.com", password || "demo")
       if (success) {
         router.push("/my-tickets")
       }
@@ -80,10 +76,9 @@ export default function SignInPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
+                  placeholder="Enter your email (or leave blank)"
                   className="h-12 rounded-md border border-border bg-input px-4 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
                   autoComplete="email"
-                  required
                 />
               </div>
 
@@ -102,10 +97,9 @@ export default function SignInPage() {
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter your password"
+                    placeholder="Enter your password (or leave blank)"
                     className="h-12 w-full rounded-md border border-border bg-input px-4 pr-12 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
                     autoComplete="current-password"
-                    required
                   />
                   <button
                     type="button"
