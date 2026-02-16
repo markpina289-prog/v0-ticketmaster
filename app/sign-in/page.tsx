@@ -21,12 +21,16 @@ export default function SignInPage() {
 
     setLoading(true)
     try {
+      console.log("[v0] Sign in attempt with:", email || "demo@ticketmaster.com")
       // Accept any email and password for demo purposes
       const success = await login(email || "demo@ticketmaster.com", password || "demo")
+      console.log("[v0] Login returned:", success)
       if (success) {
+        console.log("[v0] Attempting to navigate to /my-tickets")
         router.push("/my-tickets")
       }
-    } catch {
+    } catch (err) {
+      console.log("[v0] Sign in error:", err)
       setError("Something went wrong. Please try again.")
     } finally {
       setLoading(false)
