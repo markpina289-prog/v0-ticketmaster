@@ -1,18 +1,21 @@
 "use client"
 
 import { useState } from "react"
-import { Search, MapPin, Menu, X, User, Heart, ChevronDown } from "lucide-react"
+import { Search, MapPin, Menu, X, User, Heart, ChevronDown, Ticket, LogOut } from "lucide-react"
+import Link from "next/link"
+import { useAuth } from "@/lib/auth-context"
 
 const navLinks = [
-  { label: "Concerts", href: "#" },
-  { label: "Sports", href: "#" },
-  { label: "Arts, Theater & Comedy", href: "#" },
-  { label: "Family", href: "#" },
+  { label: "Concerts", href: "/" },
+  { label: "Sports", href: "/" },
+  { label: "Arts, Theater & Comedy", href: "/" },
+  { label: "Family", href: "/" },
 ]
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [searchFocused, setSearchFocused] = useState(false)
+  const { user, isLoggedIn, logout } = useAuth()
 
   return (
     <header className="sticky top-0 z-50 w-full">
@@ -34,10 +37,30 @@ export function Header() {
               <Heart className="h-3 w-3" />
               Favorites
             </a>
-            <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1">
-              <User className="h-3 w-3" />
-              Sign In
-            </a>
+            {isLoggedIn ? (
+              <>
+                <Link href="/my-tickets" className="text-xs text-primary font-medium hover:text-primary/80 transition-colors flex items-center gap-1">
+                  <Ticket className="h-3 w-3" />
+                  My Tickets
+                </Link>
+                <Link href="/order-confirmation" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                  Orders
+                </Link>
+                <span className="text-xs text-muted-foreground">{user?.firstName}</span>
+                <button
+                  onClick={logout}
+                  className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+                >
+                  <LogOut className="h-3 w-3" />
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <Link href="/sign-in" className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1">
+                <User className="h-3 w-3" />
+                Sign In
+              </Link>
+            )}
           </div>
         </div>
       </div>
@@ -46,7 +69,7 @@ export function Header() {
       <div className="bg-[#0a0e17]/95 backdrop-blur-md border-b border-border">
         <div className="mx-auto flex h-16 max-w-[1400px] items-center gap-6 px-4">
           {/* Logo */}
-          <a href="#" className="flex-shrink-0 flex items-center gap-2" aria-label="Ticketmaster Home">
+          <Link href="/" className="flex-shrink-0 flex items-center gap-2" aria-label="Ticketmaster Home">
             <div className="flex items-center">
               <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
                 <circle cx="16" cy="16" r="16" fill="hsl(211, 97%, 44%)" />
@@ -56,7 +79,7 @@ export function Header() {
                 ticketmaster
               </span>
             </div>
-          </a>
+          </Link>
 
           {/* Search bar - desktop */}
           <div className="hidden md:flex flex-1 max-w-xl">
@@ -82,13 +105,13 @@ export function Header() {
           {/* Nav links - desktop */}
           <nav className="hidden lg:flex items-center gap-1" aria-label="Main navigation">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.label}
                 href={link.href}
                 className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-md hover:bg-secondary"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -120,14 +143,33 @@ export function Header() {
             </div>
             <nav className="flex flex-col gap-1" aria-label="Mobile navigation">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.label}
                   href={link.href}
                   className="px-3 py-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary rounded-md transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
+              {isLoggedIn && (
+                <>
+                  <Link
+                    href="/my-tickets"
+                    className="px-3 py-3 text-sm font-medium text-primary hover:bg-secondary rounded-md transition-colors"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    My Tickets
+                  </Link>
+                  <Link
+                    href="/order-confirmation"
+                    className="px-3 py-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary rounded-md transition-colors"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Orders
+                  </Link>
+                </>
+              )}
             </nav>
           </div>
         </div>

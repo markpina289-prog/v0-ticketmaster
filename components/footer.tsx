@@ -1,10 +1,35 @@
+import Link from "next/link"
 import { Facebook, Twitter, Instagram, Youtube } from "lucide-react"
 
-const footerLinks = {
-  "Your Account": ["Sign In", "Register", "My Tickets", "My Events", "Account Settings"],
-  Discover: ["Concerts", "Sports", "Arts & Theater", "Family", "Deals & Offers"],
-  Help: ["Help Center", "FAQ", "Contact Us", "Purchase Policy", "Accessibility"],
-  About: ["About Us", "Careers", "Press", "Partners", "Developers"],
+const footerLinks: Record<string, { label: string; href: string }[]> = {
+  "Your Account": [
+    { label: "Sign In", href: "/sign-in" },
+    { label: "Register", href: "/sign-in" },
+    { label: "My Tickets", href: "/my-tickets" },
+    { label: "My Events", href: "/my-tickets" },
+    { label: "Account Settings", href: "#" },
+  ],
+  Discover: [
+    { label: "Concerts", href: "/" },
+    { label: "Sports", href: "/" },
+    { label: "Arts & Theater", href: "/" },
+    { label: "Family", href: "/" },
+    { label: "Deals & Offers", href: "/" },
+  ],
+  Help: [
+    { label: "Help Center", href: "#" },
+    { label: "FAQ", href: "#" },
+    { label: "Contact Us", href: "#" },
+    { label: "Purchase Policy", href: "#" },
+    { label: "Accessibility", href: "#" },
+  ],
+  About: [
+    { label: "About Us", href: "#" },
+    { label: "Careers", href: "#" },
+    { label: "Press", href: "#" },
+    { label: "Partners", href: "#" },
+    { label: "Developers", href: "#" },
+  ],
 }
 
 export function Footer() {
@@ -48,13 +73,13 @@ export function Footer() {
               </h3>
               <ul className="flex flex-col gap-2">
                 {links.map((link) => (
-                  <li key={link}>
-                    <a
-                      href="#"
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
                       className="text-xs text-muted-foreground hover:text-foreground transition-colors"
                     >
-                      {link}
-                    </a>
+                      {link.label}
+                    </Link>
                   </li>
                 ))}
               </ul>
