@@ -1,8 +1,6 @@
 "use client"
 
 import { useAuth } from "@/lib/auth-context"
-import { useRouter } from "next/navigation"
-import { useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Calendar, MapPin, ChevronRight, Ticket, Tag } from "lucide-react"
@@ -41,18 +39,7 @@ const myTickets = [
 ]
 
 export default function MyTicketsPage() {
-  const { user, isLoggedIn } = useAuth()
-  const router = useRouter()
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      router.push("/sign-in")
-    }
-  }, [isLoggedIn, router])
-
-  if (!isLoggedIn) {
-    return null
-  }
+  const { user } = useAuth()
 
   return (
     <div className="flex min-h-screen flex-col bg-background">

@@ -18,7 +18,11 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<User | null>({
+    email: "demo@ticketmaster.com",
+    firstName: "Demo",
+    lastName: "User",
+  })
 
   const login = useCallback(async (email: string, _password: string): Promise<boolean> => {
     // Simulated auth for presentation purposes
